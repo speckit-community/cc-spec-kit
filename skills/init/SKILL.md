@@ -93,7 +93,10 @@ Installed:
   .specify/memory/        — Constitution and project memory
   .specify/integrations/  — Integration configuration
 
+⚠️  Restart your session to pick up the new skills.
+
 Next steps:
-  1. Set up your project constitution: /spec-kit:constitution
-  2. Start your first feature spec:    /spec-kit:specify <description>
+  1. Restart the session (exit and re-enter, or /reload-plugins)
+  2. Set up your project constitution: /spec-kit:constitution
+  3. Start your first feature spec:    /spec-kit:specify <description>
 ```

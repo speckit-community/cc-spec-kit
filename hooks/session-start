@@ -38,7 +38,7 @@ else
 fi
 
 # Add available commands
-context="${context}\n\nAvailable cc-spec-kit-core commands: init, specify, clarify, plan, tasks, implement, checklist, analyze, constitution, tasks-to-issues, git-initialize, git-feature, git-commit, git-validate, brainstorm"
+context="${context}\n\nAvailable cc-spec-kit-core commands: init, specify, clarify, plan, tasks, implement, checklist, analyze, constitution, tasks-to-issues, git-initialize, git-feature, git-commit, git-validate"
 
 # Escape for JSON
 escape_for_json() {

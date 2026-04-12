@@ -42,8 +42,6 @@ claude --plugin-dir ./cc-spec-kit-core
 | **git-feature** | Create feature branch |
 | **git-commit** | Auto-commit changes after skill completion |
 | **git-validate** | Validate feature branch naming |
-| **brainstorm** | Brainstorm ideas before specification |
-
 ## Full Workflow
 
 ```

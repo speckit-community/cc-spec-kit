@@ -1,4 +1,4 @@
-# cc-spec-kit-core
+# cc-spec-kit
 
 A Claude Code plugin for specification-driven development workflows. Provides skills for feature specification, planning, task generation, implementation, and analysis.
 

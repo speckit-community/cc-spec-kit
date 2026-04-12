@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# SessionStart hook for cc-spec-kit-core plugin
+# Reports active feature info and available workflow commands
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+# Build context message
+context=""
+
+# Check if .specify/ exists in the current working directory
+if [ -d ".specify" ]; then
+  context="SpecKit workspace detected (.specify/)."
+
+  # Check for active feature
+  if [ -f ".specify/feature.json" ]; then
+    feature_name=""
+    feature_branch=""
+    if command -v python3 &>/dev/null; then
+      feature_name=$(python3 -c "import json; f=json.load(open('.specify/feature.json')); print(f.get('name',''))" 2>/dev/null || true)
+      feature_branch=$(python3 -c "import json; f=json.load(open('.specify/feature.json')); print(f.get('branch',''))" 2>/dev/null || true)
+    elif command -v python &>/dev/null; then
+      feature_name=$(python -c "import json; f=json.load(open('.specify/feature.json')); print(f.get('name',''))" 2>/dev/null || true)
+      feature_branch=$(python -c "import json; f=json.load(open('.specify/feature.json')); print(f.get('branch',''))" 2>/dev/null || true)
+    fi
+    if [ -n "$feature_name" ]; then
+      context="${context} Active feature: ${feature_name}"
+      if [ -n "$feature_branch" ]; then
+        context="${context} (branch: ${feature_branch})"
+      fi
+      context="${context}."
+    fi
+  fi
+else
+  context="No SpecKit workspace found. Run /cc-spec-kit-core:init to initialize."
+fi
+
+# Add available commands
+context="${context}\n\nAvailable cc-spec-kit-core commands: init, specify, clarify, plan, tasks, implement, checklist, analyze, constitution, tasks-to-issues, git-initialize, git-feature, git-commit, git-validate, brainstorm"
+
+# Escape for JSON
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+escaped_context=$(escape_for_json "$context")
+
+# Output context injection for the appropriate platform
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "additional_context": "%s"\n}\n' "$escaped_context"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$escaped_context"
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$escaped_context"
+fi
+
+exit 0

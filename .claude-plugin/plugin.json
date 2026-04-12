@@ -1,0 +1,9 @@
+{
+  "name": "cc-spec-kit-core",
+  "description": "A structured feature development workflow plugin providing brainstorm, specify, clarify, plan, tasks, implement, checklist, analyze, and constitution skills — ported from SpecKit.",
+  "version": "0.1.0",
+  "author": {
+    "name": "spec-kit-core"
+  },
+  "license": "MIT"
+}

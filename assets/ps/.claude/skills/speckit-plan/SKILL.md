@@ -8,14 +8,6 @@ metadata:
   source: "templates/commands/plan.md"
 user-invocable: true
 disable-model-invocation: true
-handoffs: 
-  - label: Create Tasks
-    agent: speckit.tasks
-    prompt: Break the plan into tasks
-    send: true
-  - label: Create Checklist
-    agent: speckit.checklist
-    prompt: Create a checklist for the following domain...
 ---
 
 

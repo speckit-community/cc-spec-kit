@@ -1,19 +1,27 @@
-# cc-spec-kit
+# CC-Spec-Kit
 
-A Claude Code plugin for specification-driven development workflows. Provides skills for feature specification, planning, task generation, implementation, and analysis.
+A Claude Code / Copilot plugin for installing [Spec Kit](https://github.com/github/spec-kit).
+
+### Why a plugin?
+
+The Spec Kit project CLI tool requires Python. This plugin bundles the templates, scripts, and workflow as a native agent plugin, which means:
+
+- **Native package management** — install, update, and remove like any other plugin from the Claude or Copilot CLI
+- **CLI compatible** — projects initialized with the plugin are fully compatible with the `specify` CLI if you ever want to switch
 
 ## Installation
 
-### Development / Local Testing
+### Claude Code
 
 ```bash
-claude --plugin-dir ./cc-spec-kit-core
+claude plugin marketplace add speckit-community/cc-spec-kit
+claude plugin install spec-kit@speckit-community
 ```
 
-### From a Marketplace
+### GitHub Copilot CLI
 
 ```bash
-claude plugin install spec-kit
+copilot plugin install speckit-community/cc-spec-kit
 ```
 
 ## Quick Start
@@ -50,53 +58,35 @@ claude plugin install spec-kit
 
 ## Available Skills
 
+### Core Workflow
+
 | Skill | Command | Description |
 |-------|---------|-------------|
 | init | `/spec-kit:init` | Initialize project with `.specify/` infrastructure |
+| constitution | `/spec-kit:constitution` | Create or update the project constitution |
 | specify | `/spec-kit:specify` | Create or update a feature specification |
 | clarify | `/spec-kit:clarify` | Ask clarification questions about a spec |
 | plan | `/spec-kit:plan` | Generate an implementation plan |
 | tasks | `/spec-kit:tasks` | Generate dependency-ordered tasks |
 | implement | `/spec-kit:implement` | Execute tasks from the implementation plan |
+
+### Analysis & Quality
+
+| Skill | Command | Description |
+|-------|---------|-------------|
 | analyze | `/spec-kit:analyze` | Cross-artifact consistency analysis |
-| checklist | `/spec-kit:checklist` | Generate a custom checklist |
-| constitution | `/spec-kit:constitution` | Create or update the project constitution |
+| checklist | `/spec-kit:checklist` | Generate a quality checklist for requirements |
 | taskstoissues | `/spec-kit:taskstoissues` | Convert tasks to GitHub issues |
+
+### Git Integration
+
+| Skill | Command | Description |
+|-------|---------|-------------|
 | git-commit | `/spec-kit:git-commit` | Auto-commit after a Spec Kit command |
 | git-feature | `/spec-kit:git-feature` | Create a feature branch |
 | git-initialize | `/spec-kit:git-initialize` | Initialize a Git repository |
 | git-remote | `/spec-kit:git-remote` | Detect Git remote URL |
 | git-validate | `/spec-kit:git-validate` | Validate feature branch naming |
-
-## Plugin Structure
-
-```
-cc-spec-kit-core/
-├── .claude-plugin/
-│   └── plugin.json          # Plugin manifest
-├── skills/                   # All plugin skills
-│   ├── init/
-│   ├── specify/
-│   ├── clarify/
-│   ├── plan/
-│   ├── tasks/
-│   ├── implement/
-│   ├── analyze/
-│   ├── checklist/
-│   ├── constitution/
-│   ├── taskstoissues/
-│   ├── git-commit/
-│   ├── git-feature/
-│   ├── git-initialize/
-│   ├── git-remote/
-│   └── git-validate/
-└── .specify/                 # Bundled infrastructure (copied by init)
-    ├── scripts/
-    ├── templates/
-    ├── extensions/
-    ├── memory/
-    └── integrations/
-```
 
 ## License
 

@@ -8,6 +8,10 @@ metadata:
   source: "templates/commands/clarify.md"
 user-invocable: true
 disable-model-invocation: true
+handoffs: 
+  - label: Build Technical Plan
+    agent: speckit.plan
+    prompt: Create a plan for the spec. I am building with...
 ---
 
 

@@ -8,6 +8,15 @@ metadata:
   source: "templates/commands/tasks.md"
 user-invocable: true
 disable-model-invocation: true
+handoffs: 
+  - label: Analyze For Consistency
+    agent: speckit.analyze
+    prompt: Run a project analysis for consistency
+    send: true
+  - label: Implement Project
+    agent: speckit.implement
+    prompt: Start the implementation in phases
+    send: true
 ---
 
 

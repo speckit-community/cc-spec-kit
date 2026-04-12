@@ -1,0 +1,16 @@
+{
+  "name": "speckit-community",
+  "owner": {
+    "name": "Spec Kit Community"
+  },
+  "metadata": {
+    "description": "Specification-driven development workflow plugins"
+  },
+  "plugins": [
+    {
+      "name": "spec-kit",
+      "source": ".",
+      "description": "Specification-driven development workflow. Provides skills for feature specification, planning, task generation, implementation, and analysis."
+    }
+  ]
+}

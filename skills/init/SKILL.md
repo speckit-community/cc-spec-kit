@@ -32,39 +32,62 @@ Check if a `.specify/` directory already exists in the current working directory
 
 - **If `.specify/` exists and `$ARGUMENTS` contains `--force`**:
   - Print: `Reinitializing Spec Kit (--force specified)...`
-  - Remove the existing directories: `rm -rf .specify/ .claude/`
-  - Continue to step 2.
+  - Continue to step 2 (existing directories will be overwritten by the copy).
 
 - **If `.specify/` does not exist**:
   - Continue to step 2.
 
-### 2. Copy Infrastructure
+### 2. Detect Platform
 
-Copy the `.specify/` and `.claude/` directories from the plugin to the project root:
+Determine the user's operating system to select the correct asset variant.
+
+Run a quick platform check:
+
+```bash
+uname -s 2>/dev/null || echo "Windows"
+```
+
+- **If the output contains `MINGW`, `MSYS`, `CYGWIN`, or `Windows`** → set `PLATFORM=ps`
+- **Otherwise** (Darwin, Linux, etc.) → set `PLATFORM=bash`
+
+### 3. Copy Infrastructure
+
+Copy the `.specify/` and `.claude/` directories from the detected platform asset into the project root.
+
+**For bash (macOS / Linux):**
 
 ```bash
 cp -R "${CLAUDE_PLUGIN_ROOT}/assets/bash/.specify" .specify
 cp -R "${CLAUDE_PLUGIN_ROOT}/assets/bash/.claude" .claude
 ```
 
-### 3. Set Script Permissions
+**For ps (Windows):**
 
-Make all shell scripts executable:
+```powershell
+Copy-Item -Recurse -Force "${CLAUDE_PLUGIN_ROOT}/assets/ps/.specify" .specify
+Copy-Item -Recurse -Force "${CLAUDE_PLUGIN_ROOT}/assets/ps/.claude" .claude
+```
+
+### 4. Set Script Permissions (bash only)
+
+If `PLATFORM=bash`, make all shell scripts executable:
 
 ```bash
 find .specify -name '*.sh' -exec chmod +x {} +
 ```
 
-### 4. Report Summary
+Skip this step on Windows — PowerShell scripts do not need execute permission.
+
+### 5. Report Summary
 
 List what was installed:
 
 ```
-✅ Spec Kit initialized successfully!
+✅ Spec Kit initialized successfully! (platform: <PLATFORM>)
 
 Installed:
   .claude/skills/         — Claude Code skills for the Spec Kit workflow
-  .specify/scripts/       — Shell scripts for workflow automation
+  .specify/scripts/       — Workflow automation scripts
   .specify/templates/     — Templates for spec, plan, tasks, constitution, etc.
   .specify/extensions/    — Git extension with auto-commit hooks
   .specify/memory/        — Constitution and project memory

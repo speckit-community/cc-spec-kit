@@ -75,7 +75,7 @@ jobs:
       - name: Regenerate assets
         if: steps.check.outputs.needs_update == 'true'
         run: |
-          INIT_FLAGS=(--ai claude --ai-skills --here --force --no-git)
+          INIT_FLAGS=(--ai claude --ai-skills --here --force --no-git --ignore-agent-tools)
 
           for variant_pair in "bash:sh" "ps:ps"; do
             IFS=':' read -r VARIANT SCRIPT_FLAG <<< "$variant_pair"

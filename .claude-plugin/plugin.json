@@ -1,10 +1,16 @@
 {
   "name": "spec-kit",
-  "version": "0.1.0",
+  "version": "0.6.1",
   "description": "Specification-driven development workflow for Claude Code. Provides skills for feature specification, planning, task generation, implementation, and analysis.",
   "author": {
     "name": "Spec Kit Team"
   },
   "license": "MIT",
-  "keywords": ["spec-kit", "specification", "planning", "workflow", "implementation"]
+  "keywords": [
+    "spec-kit",
+    "specification",
+    "planning",
+    "workflow",
+    "implementation"
+  ]
 }

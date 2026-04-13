@@ -24,6 +24,26 @@ claude plugin install spec-kit@speckit-community
 copilot plugin install speckit-community/cc-spec-kit
 ```
 
+## Updating
+
+### Claude Code
+
+```bash
+claude plugin update spec-kit@speckit-community
+```
+
+### GitHub Copilot CLI
+
+```bash
+copilot plugin update speckit-community/cc-spec-kit
+```
+
+After updating the plugin, re-initialize your project to pick up the latest assets:
+
+```
+/spec-kit:init --force
+```
+
 ## Quick Start
 
 1. **Initialize** your project with Spec Kit infrastructure:

@@ -54,18 +54,29 @@ uname -s 2>/dev/null || echo "Windows"
 
 Copy the `.specify/` and `.claude/` directories from the detected platform asset into the project root.
 
+**IMPORTANT:** Do NOT blindly `rm -rf .claude` — the user may have custom skills, settings, or a `commands.md` file there. Only remove the plugin-owned paths before copying.
+
+- `.specify/` is fully owned by the plugin → safe to replace entirely.
+- `.claude/skills/speckit-*/` are the only plugin-owned paths inside `.claude/` → remove only those, then merge.
+
 **For bash (macOS / Linux):**
 
 ```bash
+rm -rf .specify
+rm -rf .claude/skills/speckit-*/
+mkdir -p .claude/skills
 cp -R "${CLAUDE_PLUGIN_ROOT}/assets/bash/.specify" .specify
-cp -R "${CLAUDE_PLUGIN_ROOT}/assets/bash/.claude" .claude
+cp -R "${CLAUDE_PLUGIN_ROOT}/assets/bash/.claude/skills"/speckit-* .claude/skills/
 ```
 
 **For ps (Windows):**
 
 ```powershell
+Remove-Item -Recurse -Force .specify -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .claude/skills/speckit-* -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force -Path .claude/skills | Out-Null
 Copy-Item -Recurse -Force "${CLAUDE_PLUGIN_ROOT}/assets/ps/.specify" .specify
-Copy-Item -Recurse -Force "${CLAUDE_PLUGIN_ROOT}/assets/ps/.claude" .claude
+Copy-Item -Recurse -Force "${CLAUDE_PLUGIN_ROOT}/assets/ps/.claude/skills/speckit-*" .claude/skills/
 ```
 
 ### 4. Set Script Permissions (bash only)

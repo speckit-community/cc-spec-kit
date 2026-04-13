@@ -1,0 +1,137 @@
+# update-speckit-assets.yml — daily check for new spec-kit releases
+#
+# Checks the latest release at github/spec-kit. If it's newer than the
+# current plugin version, regenerates assets/ and bumps plugin.json to
+# match, then opens a PR.
+
+name: Update Spec Kit Assets
+
+on:
+  schedule:
+    # Run daily at 06:00 UTC
+    - cron: "0 6 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Checkout ──────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Detect latest spec-kit release ────────────────────────────
+      - name: Get latest spec-kit release version
+        id: latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG=$(gh api repos/github/spec-kit/releases/latest --jq '.tag_name')
+          VERSION="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Latest spec-kit release: $TAG ($VERSION)"
+
+      # ── Read current plugin version ───────────────────────────────
+      - name: Get current plugin version
+        id: current
+        run: |
+          VERSION=$(jq -r '.version' .claude-plugin/plugin.json)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Current plugin version: $VERSION"
+
+      # ── Compare versions ──────────────────────────────────────────
+      - name: Check if update is needed
+        id: check
+        run: |
+          if [ "${{ steps.latest.outputs.version }}" = "${{ steps.current.outputs.version }}" ]; then
+            echo "Version ${{ steps.current.outputs.version }} is already up to date."
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Update available: ${{ steps.current.outputs.version }} → ${{ steps.latest.outputs.version }}"
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── Install uv ───────────────────────────────────────────────
+      - name: Install uv
+        if: steps.check.outputs.needs_update == 'true'
+        uses: astral-sh/setup-uv@v4
+
+      # ── Install specify-cli at the release tag ────────────────────
+      - name: Install specify-cli
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          uv tool install specify-cli --force \
+            --from "git+https://github.com/github/spec-kit.git@${{ steps.latest.outputs.tag }}"
+          echo "Installed specify-cli version:"
+          specify version
+
+      # ── Regenerate assets ─────────────────────────────────────────
+      - name: Regenerate assets
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          INIT_FLAGS=(--ai claude --ai-skills --here --force --no-git)
+
+          for variant_pair in "bash:sh" "ps:ps"; do
+            IFS=':' read -r VARIANT SCRIPT_FLAG <<< "$variant_pair"
+            TARGET_DIR="assets/$VARIANT"
+
+            echo "═══ Generating $VARIANT variant (--script $SCRIPT_FLAG) ═══"
+
+            WORK_DIR="$(mktemp -d)"
+
+            # Generate spec-kit output
+            (cd "$WORK_DIR" && specify init . "${INIT_FLAGS[@]}" --script "$SCRIPT_FLAG")
+
+            # Install git extension
+            (cd "$WORK_DIR" && specify extension add git)
+
+            # Replace asset directory contents
+            rm -rf "$TARGET_DIR"
+            mkdir -p "$TARGET_DIR"
+            cp -R "$WORK_DIR/.claude" "$TARGET_DIR/.claude"
+            cp -R "$WORK_DIR/.specify" "$TARGET_DIR/.specify"
+
+            # Set script permissions (bash variant)
+            if [ "$VARIANT" = "bash" ]; then
+              find "$TARGET_DIR/.specify" -name '*.sh' -exec chmod +x {} + 2>/dev/null || true
+            fi
+
+            rm -rf "$WORK_DIR"
+            echo "✅  assets/$VARIANT updated"
+          done
+
+      # ── Update plugin.json version ────────────────────────────────
+      - name: Update plugin.json version
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          PLUGIN_JSON=".claude-plugin/plugin.json"
+          NEW_VERSION="${{ steps.latest.outputs.version }}"
+          jq --arg v "$NEW_VERSION" '.version = $v' "$PLUGIN_JSON" > "${PLUGIN_JSON}.tmp"
+          mv "${PLUGIN_JSON}.tmp" "$PLUGIN_JSON"
+          echo "Updated plugin.json version to $NEW_VERSION"
+
+      # ── Create Pull Request ───────────────────────────────────────
+      - name: Create Pull Request
+        if: steps.check.outputs.needs_update == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update spec-kit assets to ${{ steps.latest.outputs.version }}"
+          branch: "auto/update-speckit-${{ steps.latest.outputs.version }}"
+          title: "chore: update spec-kit assets to ${{ steps.latest.outputs.version }}"
+          body: |
+            Automated update of spec-kit assets to version **${{ steps.latest.outputs.version }}**.
+
+            **Release:** https://github.com/github/spec-kit/releases/tag/${{ steps.latest.outputs.tag }}
+
+            Changes:
+            - Regenerated `assets/bash/` and `assets/ps/` from spec-kit ${{ steps.latest.outputs.version }}
+            - Updated `.claude-plugin/plugin.json` version to `${{ steps.latest.outputs.version }}`
+          labels: dependencies,automated
+          delete-branch: true

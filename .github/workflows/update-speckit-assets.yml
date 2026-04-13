@@ -33,6 +33,13 @@ jobs:
         run: |
           TAG=$(gh api repos/github/spec-kit/releases/latest --jq '.tag_name')
           VERSION="${TAG#v}"
+          # Skip dev/pre-release versions (e.g. 0.5.2.dev0, 0.6.0a1, 0.6.0rc1)
+          if [[ "$VERSION" =~ (dev|alpha|beta|rc) ]]; then
+            echo "Skipping pre-release version: $VERSION"
+            echo "version=" >> "$GITHUB_OUTPUT"
+            echo "tag=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Latest spec-kit release: $TAG ($VERSION)"
@@ -49,11 +56,16 @@ jobs:
       - name: Check if update is needed
         id: check
         run: |
-          if [ "${{ steps.latest.outputs.version }}" = "${{ steps.current.outputs.version }}" ]; then
-            echo "Version ${{ steps.current.outputs.version }} is already up to date."
+          LATEST="${{ steps.latest.outputs.version }}"
+          CURRENT="${{ steps.current.outputs.version }}"
+          if [ -z "$LATEST" ]; then
+            echo "No stable release found. Skipping."
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+          elif [ "$LATEST" = "$CURRENT" ]; then
+            echo "Version $CURRENT is already up to date."
             echo "needs_update=false" >> "$GITHUB_OUTPUT"
           else
-            echo "Update available: ${{ steps.current.outputs.version }} → ${{ steps.latest.outputs.version }}"
+            echo "Update available: $CURRENT → $LATEST"
             echo "needs_update=true" >> "$GITHUB_OUTPUT"
           fi
 

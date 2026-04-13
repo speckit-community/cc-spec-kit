@@ -1,5 +1,7 @@
 # CC-Spec-Kit
 
+> **Note:** This is a community-maintained Claude Code plugin port of [Spec Kit](https://github.com/github/spec-kit). It is not affiliated with or endorsed by GitHub.
+
 A Claude Code / Copilot plugin for installing [Spec Kit](https://github.com/github/spec-kit).
 
 ### Why a plugin?

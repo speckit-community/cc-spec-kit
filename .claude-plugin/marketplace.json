@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "spec-kit",
+      "name": "speckit",
       "source": "./",
       "description": "Specification-driven development workflow. Provides skills for feature specification, planning, task generation, implementation, and analysis."
     }

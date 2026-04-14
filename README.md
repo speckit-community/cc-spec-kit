@@ -43,14 +43,14 @@ copilot plugin update speckit-community/cc-spec-kit
 After updating the plugin, re-initialize your project to pick up the latest assets:
 
 ```
-/spec-kit:init --force
+/speckit:init --force
 ```
 
 ## Quick Start
 
 1. **Initialize** your project with Spec Kit infrastructure:
    ```
-   /spec-kit:init
+   /speckit:init
    ```
 
 2. **Set up** your project constitution:
@@ -84,7 +84,7 @@ After updating the plugin, re-initialize your project to pick up the latest asse
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| init | `/spec-kit:init` | Initialize project with `.specify/` infrastructure |
+| init | `/speckit:init` | Initialize project with `.specify/` infrastructure |
 | constitution | `/spec-kit:constitution` | Create or update the project constitution |
 | specify | `/spec-kit:specify` | Create or update a feature specification |
 | clarify | `/spec-kit:clarify` | Ask clarification questions about a spec |

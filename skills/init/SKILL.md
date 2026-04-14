@@ -26,7 +26,7 @@ Check if a `.specify/` directory already exists in the current working directory
   - Print a warning:
     ```
     ⚠️  A .specify/ directory already exists in this project.
-    To reinitialize, run: /spec-kit:init --force
+    To reinitialize, run: /speckit:init --force
     ```
   - **Stop execution. Do not proceed.**
 

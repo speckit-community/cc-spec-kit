@@ -1,0 +1,12 @@
+name: speckit
+description: Specification-driven development workflow plugin for Claude Code and Copilot CLI
+system_requirements:
+  - name: git
+    optional: true
+    reason: "Enables branch creation, auto-commit hooks, and feature branch validation; without git, features are tracked by directory naming only"
+  - name: jq
+    optional: true
+    reason: "Used for safe JSON construction in shell scripts; a pure-bash fallback is included when jq is unavailable"
+  - name: python3
+    optional: true
+    reason: "Used to parse feature.json and preset registry JSON; falls back to grep/sed when unavailable"

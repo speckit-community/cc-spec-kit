@@ -55,27 +55,27 @@ After updating the plugin, re-initialize your project to pick up the latest asse
 
 2. **Set up** your project constitution:
    ```
-   /spec-kit:constitution
+   /speckit-constitution
    ```
 
 3. **Specify** a new feature:
    ```
-   /spec-kit:specify <feature description>
+   /speckit-specify <feature description>
    ```
 
 4. **Plan** the implementation:
    ```
-   /spec-kit:plan
+   /speckit-plan
    ```
 
 5. **Generate tasks**:
    ```
-   /spec-kit:tasks
+   /speckit-tasks
    ```
 
 6. **Implement**:
    ```
-   /spec-kit:implement
+   /speckit-implement
    ```
 
 ## Available Skills
@@ -85,30 +85,30 @@ After updating the plugin, re-initialize your project to pick up the latest asse
 | Skill | Command | Description |
 |-------|---------|-------------|
 | init | `/speckit:init` | Initialize project with `.specify/` infrastructure |
-| constitution | `/spec-kit:constitution` | Create or update the project constitution |
-| specify | `/spec-kit:specify` | Create or update a feature specification |
-| clarify | `/spec-kit:clarify` | Ask clarification questions about a spec |
-| plan | `/spec-kit:plan` | Generate an implementation plan |
-| tasks | `/spec-kit:tasks` | Generate dependency-ordered tasks |
-| implement | `/spec-kit:implement` | Execute tasks from the implementation plan |
+| constitution | `/speckit-constitution` | Create or update the project constitution |
+| specify | `/speckit-specify` | Create or update a feature specification |
+| clarify | `/speckit-clarify` | Ask clarification questions about a spec |
+| plan | `/speckit-plan` | Generate an implementation plan |
+| tasks | `/speckit-tasks` | Generate dependency-ordered tasks |
+| implement | `/speckit-implement` | Execute tasks from the implementation plan |
 
 ### Analysis & Quality
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| analyze | `/spec-kit:analyze` | Cross-artifact consistency analysis |
-| checklist | `/spec-kit:checklist` | Generate a quality checklist for requirements |
-| taskstoissues | `/spec-kit:taskstoissues` | Convert tasks to GitHub issues |
+| analyze | `/speckit-analyze` | Cross-artifact consistency analysis |
+| checklist | `/speckit-checklist` | Generate a quality checklist for requirements |
+| taskstoissues | `/speckit-taskstoissues` | Convert tasks to GitHub issues |
 
 ### Git Integration
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| git-commit | `/spec-kit:git-commit` | Auto-commit after a Spec Kit command |
-| git-feature | `/spec-kit:git-feature` | Create a feature branch |
-| git-initialize | `/spec-kit:git-initialize` | Initialize a Git repository |
-| git-remote | `/spec-kit:git-remote` | Detect Git remote URL |
-| git-validate | `/spec-kit:git-validate` | Validate feature branch naming |
+| git-commit | `/speckit-git-commit` | Auto-commit after a Spec Kit command |
+| git-feature | `/speckit-git-feature` | Create a feature branch |
+| git-initialize | `/speckit-git-initialize` | Initialize a Git repository |
+| git-remote | `/speckit-git-remote` | Detect Git remote URL |
+| git-validate | `/speckit-git-validate` | Validate feature branch naming |
 
 ## License
 

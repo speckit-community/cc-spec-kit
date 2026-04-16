@@ -1,7 +1,7 @@
 {
   "integration": "speckit",
-  "version": "0.7.1",
-  "installed_at": "2026-04-16T10:44:29.205715+00:00",
+  "version": "0.7.2",
+  "installed_at": "2026-04-16T20:27:01.582154+00:00",
   "files": {
     ".specify/scripts/powershell/check-prerequisites.ps1": "bcb37804b0757c37799b65a9321c1d3fb7b7ddcab6703c55c5b9a142c9166bf1",
     ".specify/scripts/powershell/update-agent-context.ps1": "e2a01bb5559a8f5b4898d46e8af5bc5627e651d36839c401378f7159b7b34727",

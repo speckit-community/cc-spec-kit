@@ -1,7 +1,7 @@
 {
   "integration": "speckit",
-  "version": "0.7.0",
-  "installed_at": "2026-04-14T18:56:32.198887+00:00",
+  "version": "0.7.1",
+  "installed_at": "2026-04-16T10:44:28.706670+00:00",
   "files": {
     ".specify/scripts/bash/create-new-feature.sh": "3439519f72ce6f88fcd4dcd27346de0c9ffe211c927b1319db42850282f02456",
     ".specify/scripts/bash/update-agent-context.sh": "45bb80ad9095426d49ca951b680817ff965c4f1d57217faa1fa441dbbd2a21db",

@@ -110,6 +110,26 @@ After updating the plugin, re-initialize your project to pick up the latest asse
 | git-remote | `/speckit-git-remote` | Detect Git remote URL |
 | git-validate | `/speckit-git-validate` | Validate feature branch naming |
 
+## How This Plugin Is Generated
+
+This plugin is a community-maintained port of [Spec Kit](https://github.com/github/spec-kit). The plugin assets are **generated** from the upstream `specify` CLI and kept in sync automatically as upstream evolves.
+
+### Generation process
+
+1. For each variant (bash, PowerShell), `specify init` is run with the appropriate flags.
+2. The resulting `.claude/` and `.specify/` directories are copied into the corresponding `assets/{bash,ps}/` folder.
+
+### Staying aligned with upstream
+
+A [GitHub Actions workflow](/.github/workflows/update-speckit-assets.yml) runs daily to keep the plugin in sync:
+
+1. **Detect** — the workflow checks the [latest stable release](https://github.com/github/spec-kit/releases) of `github/spec-kit` and compares it to the version in `.claude-plugin/plugin.json`. Pre-release versions (dev, alpha, beta, rc) are skipped.
+2. **Regenerate** — if a newer stable release is found, both asset variants are regenerated from scratch.
+3. **Bump** — `.claude-plugin/plugin.json` is updated to reflect the new version.
+4. **PR** — the workflow opens a pull request (e.g., `auto/update-speckit-<version>`) with the regenerated assets and version bump for review before merging.
+
+This means the plugin tracks upstream releases automatically — maintainers only need to review and merge the auto-generated PRs.
+
 ## License
 
 MIT

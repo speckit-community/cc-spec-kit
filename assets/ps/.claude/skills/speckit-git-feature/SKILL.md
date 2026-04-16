@@ -5,8 +5,6 @@ compatibility: Requires spec-kit project structure with .specify/ directory
 metadata:
   author: github-spec-kit
   source: git:commands/speckit.git.feature.md
-user-invocable: true
-disable-model-invocation: true
 ---
 
 # Create Feature Branch

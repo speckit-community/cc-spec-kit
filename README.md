@@ -119,6 +119,10 @@ This plugin is a community-maintained port of [Spec Kit](https://github.com/gith
 1. For each variant (bash, PowerShell), `specify init` is run with the appropriate flags.
 2. The resulting `.claude/` and `.specify/` directories are copied into the corresponding `assets/{bash,ps}/` folder.
 
+### How `init` bootstraps a project
+
+When a user runs `/speckit:init`, the plugin detects the platform (bash for macOS/Linux, PowerShell for Windows), selects the matching asset variant, and copies the pre-generated `.specify/` and `.claude/skills/speckit-*/` directories into the project root — no Python or `specify` CLI required. User content in `.claude/` is preserved; only plugin-owned paths are replaced.
+
 ### Staying aligned with upstream
 
 A [GitHub Actions workflow](/.github/workflows/update-speckit-assets.yml) runs daily to keep the plugin in sync:

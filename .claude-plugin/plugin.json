@@ -1,6 +1,6 @@
 {
   "name": "speckit",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Specification-driven development workflow for Claude Code. Provides skills for feature specification, planning, task generation, implementation, and analysis.",
   "author": {
     "name": "Spec Kit Team"

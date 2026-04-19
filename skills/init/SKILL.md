@@ -2,8 +2,6 @@
 name: "init"
 description: "Initialize a new project with the Spec Kit workflow infrastructure. Copies .specify/ and .claude/ directories with scripts, templates, skills, and extensions."
 argument-hint: "Use --force to overwrite an existing .specify/ directory"
-user-invocable: true
-disable-model-invocation: true
 ---
 
 ## User Input

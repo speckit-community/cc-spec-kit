@@ -1,6 +1,20 @@
 {
   "schema_version": "1.0",
   "extensions": {
+    "agent-context": {
+      "version": "1.0.0",
+      "source": "local",
+      "manifest_hash": "sha256:9a1dc02d2d0139bb03860392ecacef79183be2c442feda2f9ccaa4e5907b1e47",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {
+        "claude": [
+          "speckit.agent-context.update"
+        ]
+      },
+      "registered_skills": [],
+      "installed_at": "2026-06-03T11:00:56.618000+00:00"
+    },
     "git": {
       "version": "1.0.0",
       "source": "local",
@@ -17,7 +31,7 @@
         ]
       },
       "registered_skills": [],
-      "installed_at": "2026-05-28T10:03:08.235651+00:00"
+      "installed_at": "2026-06-03T11:00:56.837963+00:00"
     }
   }
 }

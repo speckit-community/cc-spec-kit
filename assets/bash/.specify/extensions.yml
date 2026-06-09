@@ -1,8 +1,39 @@
 installed:
+- agent-context
 - git
 settings:
   auto_execute_hooks: true
 hooks:
+  after_specify:
+  - extension: agent-context
+    command: speckit.agent-context.update
+    enabled: true
+    optional: true
+    prompt: Execute speckit.agent-context.update?
+    description: Refresh agent context after specification
+    condition: null
+  - extension: git
+    command: speckit.git.commit
+    enabled: true
+    optional: true
+    prompt: Commit specification changes?
+    description: Auto-commit after specification
+    condition: null
+  after_plan:
+  - extension: agent-context
+    command: speckit.agent-context.update
+    enabled: true
+    optional: true
+    prompt: Execute speckit.agent-context.update?
+    description: Refresh agent context after planning
+    condition: null
+  - extension: git
+    command: speckit.git.commit
+    enabled: true
+    optional: true
+    prompt: Commit plan changes?
+    description: Auto-commit after implementation planning
+    condition: null
   before_constitution:
   - extension: git
     command: speckit.git.initialize
@@ -83,14 +114,6 @@ hooks:
     prompt: Commit constitution changes?
     description: Auto-commit after constitution update
     condition: null
-  after_specify:
-  - extension: git
-    command: speckit.git.commit
-    enabled: true
-    optional: true
-    prompt: Commit specification changes?
-    description: Auto-commit after specification
-    condition: null
   after_clarify:
   - extension: git
     command: speckit.git.commit
@@ -98,14 +121,6 @@ hooks:
     optional: true
     prompt: Commit clarification changes?
     description: Auto-commit after spec clarification
-    condition: null
-  after_plan:
-  - extension: git
-    command: speckit.git.commit
-    enabled: true
-    optional: true
-    prompt: Commit plan changes?
-    description: Auto-commit after implementation planning
     condition: null
   after_tasks:
   - extension: git
